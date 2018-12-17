@@ -191,6 +191,9 @@
                                         <span>Submit</span>
                                     </button>
                                 </form>
+                                <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                                    <input type="text" name="b_3bc8785a5db2b53db0b4d864e_314e977746" tabindex="-1" value="">
+                                </div>
                             </div>
                             <div class="downloads">
                                 <p><strong>Attendee’s</strong>, the Blocktix app is available for download. Enjoy!</p>
@@ -899,7 +902,7 @@
                             <div class="form">
                                 <p><strong>Organizer’s</strong>, tell us more about your next event and let Blocktix get to work for you.</p>
 
-                                <form action="https://blocktix.us17.list-manage.com/subscribe/post?u=3bc8785a5db2b53db0b4d864e&amp;id=314e977746" method="post">
+                                <form action="https://blocktix.us17.list-manage.com/subscribe/post?u=3bc8785a5db2b53db0b4d864e&amp;id=314e977746" method="post" id="mc-embedded-subscribe-form2">
                                     <div class="form-control">
                                         <input class="field" type="email" id="mce-EMAIL2" name="EMAIL" placeholder="ENTER EMAIL" />
                                         <input type="hidden" name="ORGANIZER" id="mcr-ORGANIZER2" value="Yes! I also organize events." />
@@ -1035,12 +1038,36 @@
                 fnames[3] = 'ORGANIZER';
                 ftypes[3] = 'dropdown';
             }(jQuery));
-            var $mcj = jQuery.noConflict(true);
-            $mcj('#mc-embedded-subscribe1').on('click', function() {
-                $mcj('#mc-embedded-subscribe1,#mce-EMAIL1,#mce-ORGANIZER1').fadeOut(300).fadeIn(600);
-            });
-            $mcj('#mc-embedded-subscribe2').on('click', function() {
-                $mcj('#mc-embedded-subscribe2,#mce-EMAIL2,#mce-ORGANIZER2').fadeOut(300).fadeIn(600);
+            jQuery("#mc-embedded-subscribe-form2").validate({
+
+                // Set error HTML: <div class="mce_inline_error"></div>
+                errorClass: "mce_inline_error",
+                errorElement: "div",
+
+                // Validate fields on keyup, focusout and blur.
+                onkeyup: false,
+                onfocusout: function(element) {
+                    if (!mc.isTooEarly(element)) {
+                        $(element).valid();
+                    }
+                },
+                onblur: function(element) {
+                    if (!mc.isTooEarly(element)) {
+                        $(element).valid();
+                    }
+                },
+                // Grouping fields makes jQuery Validation display one error for all the fields in the group
+                // It doesn't have anything to do with how the fields are validated (together or separately),
+                // it's strictly for visual display of errors
+                groups: mc.getGroups(),
+                // Place a field's inline error HTML just before the div.mc-field-group closing tag
+                errorPlacement: function(error, element) {
+                    element.closest('.mc-field-group').append(error);
+                },
+                // Submit the form via ajax (see: jQuery Form plugin)
+                submitHandler: function(form) {
+                    $(form).ajaxSubmit(mc.ajaxOptions);
+                }
             });
         </script>
     </body>
